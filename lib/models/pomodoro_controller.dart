@@ -10,7 +10,7 @@ class PomodoroController {
 
   void setSections() {
     sections.add(pomodoro.focusTime);
-    for (int i = 1; i < pomodoro.breakQuantity; i++) {
+    for (int i = 1; i < pomodoro.sections; i++) {
       sections.add(pomodoro.shortBreakTime);
       sections.add(pomodoro.focusTime);
     }

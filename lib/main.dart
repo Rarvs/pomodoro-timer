@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/util/constants.dart';
-import 'package:pomodoro_timer/views/pomodoro_timer_page.dart';
+import 'package:pomodoro_timer/widgets/pomodoro_timer_page.dart';
 
 void main() {
   runApp(PomodoroApp());
@@ -16,7 +16,10 @@ class PomodoroApp extends StatelessWidget {
           primaryColor: kPrimaryColor,
           accentColor: kAccentColor,
           scaffoldBackgroundColor: kPrimaryColor),
-      home: PomodoroTimerPage(),
+      initialRoute: PomodoroTimerPage.routeKey,
+      routes: {
+        PomodoroTimerPage.routeKey: (context) => PomodoroTimerPage(),
+      },
     );
   }
 }

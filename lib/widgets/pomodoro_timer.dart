@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/models/pomodoro.dart';
 import 'package:pomodoro_timer/models/pomodoro_controller.dart';
 import 'package:pomodoro_timer/util/constants.dart';
-import 'package:pomodoro_timer/views/pomodoro_timer_page.dart';
 
 class PomodoroTimer extends StatefulWidget {
+  PomodoroTimer({required this.pomodoro});
+
+  final Pomodoro pomodoro;
+
   @override
   _PomodoroTimerState createState() => _PomodoroTimerState();
 }
@@ -18,19 +21,16 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
   int section = 0;
 
   void setPomodoroName(newPomodoroName) {
-    setState(() {
-      pomodoroName = newPomodoroName;
-    });
+    setState(() {});
   }
 
   @override
   void initState() {
-    pomodoro = Pomodoro(
-        focusTime: 5, breakQuantity: 4, longBreakTime: 3, shortBreakTime: 2);
+    pomodoro = widget.pomodoro;
     pomodoroController = PomodoroController(pomodoro: pomodoro);
     pomodoroController.setSections();
     section = pomodoroController.getFirstPosition();
-    sectionTime = pomodoroController.sections[section];
+    sectionTime = pomodoroController.sections[section] * 60;
     super.initState();
   }
 
@@ -79,7 +79,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                 onComplete: () {
                   try {
                     section = pomodoroController.getNextSection(section);
-                    sectionTime = pomodoroController.sections[section];
+                    sectionTime = pomodoroController.sections[section] * 60;
                     controller.restart(duration: sectionTime);
                   } catch (e) {
                     controller.pause();

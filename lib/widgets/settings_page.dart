@@ -1,8 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro_timer/models/pomodoro.dart';
 import 'package:pomodoro_timer/util/constants.dart';
 
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+class SettingsPage extends StatefulWidget {
+  final Pomodoro pomodoro;
+
+  SettingsPage(this.pomodoro);
+
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  int focusTime = 25, sections = 4, shortBreakTime = 5, longBreakTime = 15;
+
+  @override
+  void initState() {
+    focusTime = widget.pomodoro.focusTime;
+    sections = widget.pomodoro.sections;
+    shortBreakTime = widget.pomodoro.shortBreakTime;
+    longBreakTime = widget.pomodoro.longBreakTime;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +36,12 @@ class SettingsPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 32),
         child: Column(
-          children: [FocusTimeSetting()],
+          children: [
+            FocusTimeSetting(
+              value: focusTime,
+              label: 'Focus Time',
+            )
+          ],
         ),
       ),
     );
@@ -25,7 +49,9 @@ class SettingsPage extends StatelessWidget {
 }
 
 class FocusTimeSetting extends StatelessWidget {
-  const FocusTimeSetting({Key? key}) : super(key: key);
+  FocusTimeSetting({required int value, required String label});
+  final String label = 'Focus time';
+  final int value = 25;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +60,7 @@ class FocusTimeSetting extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          'Focus Time',
+          label,
           style: kAppBarText,
         ),
         Row(
@@ -49,7 +75,7 @@ class FocusTimeSetting extends StatelessWidget {
               onPressed: () => print('decrease button pressed'),
             ),
             Text(
-              '25',
+              value.toString(),
               style: TextStyle(fontSize: 32.0),
             ),
             TextButton(
