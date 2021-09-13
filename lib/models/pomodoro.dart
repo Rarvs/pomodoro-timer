@@ -12,4 +12,10 @@ class Pomodoro {
       required this.longBreakTime,
       required this.shortBreakTime,
       required this.name});
+
+  static Pomodoro defaultPomodoro = Pomodoro(focusTime: 1, sections: 4, longBreakTime: 1, shortBreakTime: 2, name: 'New Pomodoro');
+
+
 }
+
+
