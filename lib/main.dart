@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro_timer/models/pomodoro.dart';
 import 'package:pomodoro_timer/util/constants.dart';
-import 'package:pomodoro_timer/views/home_screen.dart';
-import 'package:pomodoro_timer/views/pomodoro_list_page.dart';
+import 'package:pomodoro_timer/views/pomodoro_timer.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(PomodoroApp());
@@ -17,7 +18,9 @@ class PomodoroApp extends StatelessWidget {
           primaryColor: kPrimaryColor,
           accentColor: kAccentColor,
           scaffoldBackgroundColor: kPrimaryColor),
-      home: HomeScreen(),
+      home: ChangeNotifierProvider(
+          create: (_) => Pomodoro(),
+          child: PomodoroTimerPage()),
     );
   }
 }

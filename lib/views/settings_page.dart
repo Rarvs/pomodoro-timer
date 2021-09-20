@@ -1,30 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/models/pomodoro.dart';
 import 'package:pomodoro_timer/util/constants.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
-  final Pomodoro pomodoro;
-
-  SettingsPage(this.pomodoro);
-
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  int focusTime = 25, sections = 4, shortBreakTime = 5, longBreakTime = 15;
-
+  late Pomodoro pomodoro;
   @override
   void initState() {
-    focusTime = widget.pomodoro.focusTime;
-    sections = widget.pomodoro.sections;
-    shortBreakTime = widget.pomodoro.shortBreakTime;
-    longBreakTime = widget.pomodoro.longBreakTime;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    pomodoro = context.watch<Pomodoro>();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -37,9 +30,21 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 32),
         child: Column(
           children: [
-            FocusTimeSetting(
-              value: focusTime,
+            PomodoroSettingItem(
+              value: pomodoro.focusTime,
               label: 'Focus Time',
+            ),
+            PomodoroSettingItem(
+              value: pomodoro.shortBreakTime,
+              label: 'Short break Time',
+            ),
+            PomodoroSettingItem(
+              value: pomodoro.longBreakTime,
+              label: 'Long break time',
+            ),
+            PomodoroSettingItem(
+              value: pomodoro.sections,
+              label: 'Sections',
             )
           ],
         ),
@@ -48,10 +53,10 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 }
 
-class FocusTimeSetting extends StatelessWidget {
-  FocusTimeSetting({required int value, required String label});
-  final String label = 'Focus time';
-  final int value = 25;
+class PomodoroSettingItem extends StatelessWidget {
+  PomodoroSettingItem({required this.value, required this.label});
+  final String label;
+  final int value;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +77,9 @@ class FocusTimeSetting extends StatelessWidget {
               child: Icon(Icons.remove, color: kTextColor),
               style: TextButton.styleFrom(
                   backgroundColor: kSecondaryColor, shape: CircleBorder()),
-              onPressed: () => print('decrease button pressed'),
+              onPressed: () {
+                print('decrease button pressed');
+              }
             ),
             Text(
               value.toString(),
@@ -82,11 +89,14 @@ class FocusTimeSetting extends StatelessWidget {
               child: Icon(Icons.add, color: kTextColor),
               style: TextButton.styleFrom(
                   backgroundColor: kSecondaryColor, shape: CircleBorder()),
-              onPressed: () => print('increase button pressed'),
+              onPressed: () => {
+                print('increase button pressed')
+                },
             ),
           ],
         )
       ],
     );
   }
+
 }

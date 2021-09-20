@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/models/pomodoro.dart';
 import 'package:pomodoro_timer/models/pomodoro_controller.dart';
 import 'package:pomodoro_timer/util/constants.dart';
+import 'package:pomodoro_timer/views/settings_page.dart';
+import 'package:provider/provider.dart';
 
 class PomodoroTimerPage extends StatefulWidget {
-  PomodoroTimerPage({required this.pomodoro});
-
-  final Pomodoro pomodoro;
 
   @override
   _PomodoroTimerPageState createState() => _PomodoroTimerPageState();
@@ -21,15 +20,10 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
   int section = 0;
   bool isRunning = false;
 
-  void setPomodoroName(newPomodoroName) {
-    setState(() {
-      pomodoro.name = newPomodoroName;
-    });
-  }
 
   @override
   void initState() {
-    pomodoro = widget.pomodoro;
+    pomodoro = Pomodoro.defaultPomodoro;
     pomodoroController = PomodoroController(pomodoro: pomodoro);
     pomodoroController.setSections();
     section = pomodoroController.getFirstPosition();
@@ -39,6 +33,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
 
   @override
   Widget build(BuildContext context) {
+    pomodoro = context.watch<Pomodoro>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -50,13 +45,15 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
             padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
             child: InkWell(
               child: Icon(Icons.settings),
-              onTap: () => print("Setting pressed"),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
+                print("Setting pressed");},
             ),
           ),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
+        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 8),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,7 +67,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
                         decoration: kInputTextFieldDecoration,
                         onSubmitted: (value) {
                           setState(() {
-                            setPomodoroName(value);
+                            pomodoro.name = value;
                           });
                         }),
                   ),
@@ -119,7 +116,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
                         setState((){
                             section = pomodoroController.getFirstPosition();
                             sectionTime = pomodoroController.sections[section] * 60;
-                            controller.pause();
+                            controller.restart();
                         });
                         print('restart button pressed');
                       }),
