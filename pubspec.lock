@@ -101,7 +101,11 @@ packages:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "1.3.0"
+=======
+    version: "1.7.0"
+>>>>>>> d1a5eabf540a24fe51e0227acd930fe8fcf96f35
   nested:
     dependency: transitive
     description:
