@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pomodoro_timer/models/pomodoro.dart';
+import 'package:pomodoro_timer/models/pomodoro_list.dart';
 import 'package:pomodoro_timer/util/constants.dart';
 import 'package:pomodoro_timer/views/pomodoro_list_page.dart';
-import 'package:pomodoro_timer/views/pomodoro_timer.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -13,7 +13,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentPageIndex = 0;
-  final List _screensList = [PomodoroListPage(), PomodoroTimerPage(pomodoro: Pomodoro.defaultPomodoro),
+  final List _screensList = [
+    ListenableProvider(
+        create: (context) => PomodoroList(), child: PomodoroListPage()),
   ];
 
   void _updatePageIndex(int value) {
@@ -21,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
       _currentPageIndex = value;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {

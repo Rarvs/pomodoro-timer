@@ -8,7 +8,8 @@ class PomodoroController {
     this.pomodoro = pomodoro;
   }
 
-  void setSections() {
+  //for each section defined we add a short break and a focus period.
+  void startSections() {
     sections.add(pomodoro.focusTime);
     for (int i = 1; i < pomodoro.sections; i++) {
       sections.add(pomodoro.shortBreakTime);

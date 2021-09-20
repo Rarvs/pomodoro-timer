@@ -1,4 +1,6 @@
-class Pomodoro {
+import 'package:flutter/material.dart';
+
+class Pomodoro extends ChangeNotifier {
   String name = 'New Timer';
   String task = 'New Task';
   int focusTime = 25;
@@ -7,15 +9,39 @@ class Pomodoro {
   int longBreakTime = 15;
 
   Pomodoro(
-      {required this.focusTime,
-      required this.sections,
-      required this.longBreakTime,
-      required this.shortBreakTime,
-      required this.name});
+      {this.focusTime = 25,
+      this.sections = 4,
+      this.longBreakTime = 15,
+      this.shortBreakTime = 5,
+      this.name = 'New Pomodoro'});
 
-  static Pomodoro defaultPomodoro = Pomodoro(focusTime: 1, sections: 4, longBreakTime: 1, shortBreakTime: 2, name: 'New Pomodoro');
+  void setName(String newName) {
+    name = newName;
+    notifyListeners();
+  }
 
+  void setTask(String newTask) {
+    task = newTask;
+    notifyListeners();
+  }
 
+  void setFocusTime(int newFocusTime) {
+    focusTime = newFocusTime;
+    notifyListeners();
+  }
+
+  void setLongBreakTime(int newLongBreakTime) {
+    focusTime = newLongBreakTime;
+    notifyListeners();
+  }
+
+  void setShortBreakTime(int newShortBreakTime) {
+    shortBreakTime = newShortBreakTime;
+    notifyListeners();
+  }
+
+  void setSections(int newSections) {
+    sections = newSections;
+    notifyListeners();
+  }
 }
-
-
