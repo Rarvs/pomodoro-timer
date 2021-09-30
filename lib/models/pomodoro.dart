@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Pomodoro extends ChangeNotifier {
-  String name = 'New Timer';
-  String task = 'New Task';
+  String task = 'New Timer';
   int focusTime = 25;
   int sections = 4;
   int shortBreakTime = 5;
@@ -13,15 +12,10 @@ class Pomodoro extends ChangeNotifier {
       this.sections = 4,
       this.longBreakTime = 15,
       this.shortBreakTime = 5,
-      this.name = 'New Pomodoro'});
+      this.task = 'New Pomodoro'});
 
   void setName(String newName) {
-    name = newName;
-    notifyListeners();
-  }
-
-  void setTask(String newTask) {
-    task = newTask;
+    task = newName;
     notifyListeners();
   }
 
@@ -31,7 +25,7 @@ class Pomodoro extends ChangeNotifier {
   }
 
   void setLongBreakTime(int newLongBreakTime) {
-    focusTime = newLongBreakTime;
+    longBreakTime = newLongBreakTime;
     notifyListeners();
   }
 

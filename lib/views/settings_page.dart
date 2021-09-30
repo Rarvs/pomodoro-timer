@@ -17,7 +17,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    pomodoro = context.watch<Pomodoro>();
+    pomodoro = Provider.of<Pomodoro>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -32,18 +32,30 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             PomodoroSettingItem(
               value: pomodoro.focusTime,
+              onDecrease: () => pomodoro.setFocusTime(--pomodoro.focusTime),
+              onIncrease: () => pomodoro.setFocusTime(++pomodoro.focusTime),
               label: 'Focus Time',
             ),
             PomodoroSettingItem(
               value: pomodoro.shortBreakTime,
+              onDecrease: () =>
+                  pomodoro.setShortBreakTime(--pomodoro.shortBreakTime),
+              onIncrease: () =>
+                  pomodoro.setShortBreakTime(++pomodoro.shortBreakTime),
               label: 'Short break Time',
             ),
             PomodoroSettingItem(
               value: pomodoro.longBreakTime,
+              onDecrease: () =>
+                  pomodoro.setLongBreakTime(--pomodoro.longBreakTime),
+              onIncrease: () =>
+                  pomodoro.setLongBreakTime(++pomodoro.longBreakTime),
               label: 'Long break time',
             ),
             PomodoroSettingItem(
               value: pomodoro.sections,
+              onDecrease: () => pomodoro.setSections(--pomodoro.sections),
+              onIncrease: () => pomodoro.setSections(++pomodoro.sections),
               label: 'Sections',
             )
           ],
@@ -54,9 +66,15 @@ class _SettingsPageState extends State<SettingsPage> {
 }
 
 class PomodoroSettingItem extends StatelessWidget {
-  PomodoroSettingItem({required this.value, required this.label});
+  PomodoroSettingItem(
+      {required this.value,
+      required this.label,
+      required this.onIncrease,
+      required this.onDecrease});
   final String label;
   final int value;
+  final Function onIncrease;
+  final Function onDecrease;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +87,7 @@ class PomodoroSettingItem extends StatelessWidget {
           style: kAppBarText,
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
@@ -77,9 +95,7 @@ class PomodoroSettingItem extends StatelessWidget {
               child: Icon(Icons.remove, color: kTextColor),
               style: TextButton.styleFrom(
                   backgroundColor: kSecondaryColor, shape: CircleBorder()),
-              onPressed: () {
-                print('decrease button pressed');
-              }
+              onPressed: () => onDecrease(),
             ),
             Text(
               value.toString(),
@@ -89,14 +105,11 @@ class PomodoroSettingItem extends StatelessWidget {
               child: Icon(Icons.add, color: kTextColor),
               style: TextButton.styleFrom(
                   backgroundColor: kSecondaryColor, shape: CircleBorder()),
-              onPressed: () => {
-                print('increase button pressed')
-                },
+              onPressed: () => onIncrease(),
             ),
           ],
         )
       ],
     );
   }
-
 }

@@ -18,7 +18,7 @@ class PomodoroApp extends StatelessWidget {
           primaryColor: kPrimaryColor,
           accentColor: kAccentColor,
           scaffoldBackgroundColor: kPrimaryColor),
-      home: Provider(
+      home: ListenableProvider(
         create: (context) => PomodoroList(),
         child: PomodoroListPage(),
       ),

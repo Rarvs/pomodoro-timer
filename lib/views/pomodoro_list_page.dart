@@ -15,12 +15,7 @@ class _PomodoroListPageState extends State<PomodoroListPage> {
   late PomodoroList pomodoroList;
 
   Pomodoro createPomodoro() {
-    Pomodoro newPomodoro = Pomodoro(
-        name: 'New pomodoro',
-        focusTime: 25,
-        longBreakTime: 15,
-        shortBreakTime: 5,
-        sections: 5);
+    Pomodoro newPomodoro = Pomodoro();
     return newPomodoro;
   }
 
@@ -61,16 +56,21 @@ class _PomodoroListPageState extends State<PomodoroListPage> {
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PomodoroTimerPage(
-                pomodoro: pomodoroList.pomodoroList[index],
+              builder: (context) => ListenableProvider(
+                create: (context) => pomodoroList.pomodoroList[index],
+                child: PomodoroTimerPage(),
               ),
             ),
           ),
-          child: Card(
-            child: ListTile(
-              leading: Icon(Icons.timer),
-              title: Text(pomodoro.name),
-            ),
+          child: Consumer<Pomodoro>(
+            builder: (BuildContext context, value, Widget? child) {
+              return Card(
+                child: ListTile(
+                  leading: Icon(Icons.timer),
+                  title: Text(pomodoroList.pomodoroList[index].task),
+                ),
+              );
+            },
           ),
         ),
       ),

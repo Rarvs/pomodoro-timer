@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/models/pomodoro.dart';
 import 'package:pomodoro_timer/models/pomodoro_controller.dart';
 import 'package:pomodoro_timer/util/constants.dart';
+import 'package:pomodoro_timer/views/settings_page.dart';
+import 'package:provider/provider.dart';
 
 class PomodoroTimerPage extends StatefulWidget {
-  PomodoroTimerPage({required this.pomodoro});
-
-  final Pomodoro pomodoro;
-
   @override
   _PomodoroTimerPageState createState() => _PomodoroTimerPageState();
 }
@@ -21,28 +19,21 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
   int section = 0;
   bool isRunning = false;
 
-  void setPomodoroName(newPomodoroName) {
-    setState(() {
-      pomodoro.name = newPomodoroName;
-    });
-  }
-
-  @override
-  void initState() {
-    pomodoro = widget.pomodoro;
+  void createController() {
     pomodoroController = PomodoroController(pomodoro: pomodoro);
     pomodoroController.startSections();
     section = pomodoroController.getFirstPosition();
     sectionTime = pomodoroController.sections[section] * 60;
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    pomodoro = Provider.of<Pomodoro>(context);
+    createController();
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          pomodoro.name,
+          pomodoro.task,
           style: kAppBarText,
         ),
         actions: [
@@ -50,7 +41,16 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
             padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
             child: InkWell(
               child: Icon(Icons.settings),
-              onTap: () => print("Setting pressed"),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListenableProvider(
+                        create: (context) => pomodoro, child: SettingsPage()),
+                  ),
+                );
+                print("Setting pressed");
+              },
             ),
           ),
         ],
@@ -67,12 +67,9 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
               children: [
                 Container(
                   child: TextField(
-                      decoration: kInputTextFieldDecoration,
-                      onSubmitted: (value) {
-                        setState(() {
-                          setPomodoroName(value);
-                        });
-                      }),
+                    decoration: kInputTextFieldDecoration,
+                    onSubmitted: (value) => pomodoro.setName(value),
+                  ),
                 ),
               ],
             ),
@@ -119,7 +116,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
                       setState(() {
                         section = pomodoroController.getFirstPosition();
                         sectionTime = pomodoroController.sections[section] * 60;
-                        controller.pause();
+                        controller.restart(duration: sectionTime);
                       });
                       print('restart button pressed');
                     }),
