@@ -46,7 +46,7 @@ class _PomodoroListPageState extends State<PomodoroListPage> {
           }),
       appBar: AppBar(
         title: Text(
-          'Pomodoro Timer',
+          'Pomodoro Timers List',
           style: kAppBarText,
         ),
       ),
@@ -62,7 +62,7 @@ class _PomodoroListPageState extends State<PomodoroListPage> {
               ),
             ),
           ),
-          child: Consumer<Pomodoro>(
+          child: Consumer(
             builder: (BuildContext context, value, Widget? child) {
               return Card(
                 child: ListTile(

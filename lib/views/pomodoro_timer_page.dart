@@ -17,6 +17,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
   late PomodoroController pomodoroController;
   int sectionTime = 0;
   int section = 0;
+  String sectionName = '';
   bool isRunning = false;
 
   void createController() {
@@ -24,6 +25,16 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
     pomodoroController.startSections();
     section = pomodoroController.getFirstPosition();
     sectionTime = pomodoroController.sections[section] * 60;
+    sectionName = pomodoroController.sectionsName[section];
+  }
+
+  void getNextSection() {
+    setState(() {
+      section = pomodoroController.getNextSection(section);
+      sectionTime = pomodoroController.sections[section] * 60;
+      sectionName = pomodoroController.sectionsName[section];
+      controller.restart(duration: sectionTime);
+    });
   }
 
   @override
@@ -71,6 +82,12 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
                     onSubmitted: (value) => pomodoro.setName(value),
                   ),
                 ),
+                Center(
+                  child: Text(
+                    sectionName,
+                    style: kAppBarText,
+                  ),
+                ),
               ],
             ),
             Container(
@@ -94,9 +111,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
                 fillColor: kSecondaryColor,
                 onComplete: () {
                   try {
-                    section = pomodoroController.getNextSection(section);
-                    sectionTime = pomodoroController.sections[section] * 60;
-                    controller.restart(duration: sectionTime);
+                    getNextSection();
                   } catch (e) {
                     controller.pause();
                     print('Timer ended');
@@ -117,6 +132,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
                         section = pomodoroController.getFirstPosition();
                         sectionTime = pomodoroController.sections[section] * 60;
                         controller.restart(duration: sectionTime);
+                        isRunning = true;
                       });
                       print('restart button pressed');
                     }),
@@ -128,7 +144,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
                   backgroundColor: kAccentColor,
                   onPressed: () {
                     setState(() {
-                      isRunning ? controller.pause() : controller.start();
+                      isRunning ? controller.pause() : controller.resume();
                       isRunning = !isRunning;
                     });
                     print('button pressed');

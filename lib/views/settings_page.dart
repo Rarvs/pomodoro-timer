@@ -95,7 +95,7 @@ class PomodoroSettingItem extends StatelessWidget {
               child: Icon(Icons.remove, color: kTextColor),
               style: TextButton.styleFrom(
                   backgroundColor: kSecondaryColor, shape: CircleBorder()),
-              onPressed: () => onDecrease(),
+              onPressed: () => value > 1 ? onDecrease() : null,
             ),
             Text(
               value.toString(),
@@ -105,7 +105,7 @@ class PomodoroSettingItem extends StatelessWidget {
               child: Icon(Icons.add, color: kTextColor),
               style: TextButton.styleFrom(
                   backgroundColor: kSecondaryColor, shape: CircleBorder()),
-              onPressed: () => onIncrease(),
+              onPressed: () => value < 100 ? onIncrease() : null,
             ),
           ],
         )
