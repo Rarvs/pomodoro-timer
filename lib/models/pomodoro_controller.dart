@@ -27,7 +27,7 @@ class PomodoroController {
     return 0;
   }
 
-  int getNextSection(int position) {
+  int getNextSectionFromCurrent(int position) {
     if (position == sections.length) {
       return getFirstPosition();
     }

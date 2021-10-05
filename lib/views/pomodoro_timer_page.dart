@@ -29,12 +29,17 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
   }
 
   void getNextSection() {
-    setState(() {
-      section = pomodoroController.getNextSection(section);
+    try {
+      section = pomodoroController.getNextSectionFromCurrent(section);
       sectionTime = pomodoroController.sections[section] * 60;
       sectionName = pomodoroController.sectionsName[section];
       controller.restart(duration: sectionTime);
-    });
+      print(sectionName);
+    } catch (e) {
+      controller.pause();
+      print(e);
+      print('Timer ended');
+    }
   }
 
   @override
@@ -109,14 +114,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
                 strokeWidth: 20,
                 ringColor: kPrimaryColor,
                 fillColor: kSecondaryColor,
-                onComplete: () {
-                  try {
-                    getNextSection();
-                  } catch (e) {
-                    controller.pause();
-                    print('Timer ended');
-                  }
-                },
+                onComplete: () => getNextSection(),
               ),
             ),
             Row(
