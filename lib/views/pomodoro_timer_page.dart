@@ -42,6 +42,11 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
     }
   }
 
+  void sectionCompleted() {
+    getNextSection();
+    //TODO: Create a local notification with the task, section e duration of next section. Maybe add a motivational quote.
+  }
+
   @override
   Widget build(BuildContext context) {
     pomodoro = Provider.of<Pomodoro>(context);
@@ -114,7 +119,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
                 strokeWidth: 20,
                 ringColor: kPrimaryColor,
                 fillColor: kSecondaryColor,
-                onComplete: () => getNextSection(),
+                onComplete: () => sectionCompleted(),
               ),
             ),
             Row(
@@ -142,7 +147,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
                   backgroundColor: kAccentColor,
                   onPressed: () {
                     setState(() {
-                      isRunning ? controller.pause() : controller.resume();
+                      isRunning ? controller.pause() : controller.start();
                       isRunning = !isRunning;
                     });
                     print('button pressed');

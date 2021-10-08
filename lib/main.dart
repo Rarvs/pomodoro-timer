@@ -15,9 +15,7 @@ class PomodoroApp extends StatelessWidget {
     return MaterialApp(
       title: 'PomodoroApp',
       theme: ThemeData.dark().copyWith(
-          primaryColor: kPrimaryColor,
-          accentColor: kAccentColor,
-          scaffoldBackgroundColor: kPrimaryColor),
+          primaryColor: kPrimaryColor, scaffoldBackgroundColor: kPrimaryColor),
       home: ListenableProvider(
         create: (context) => PomodoroList(),
         child: PomodoroListPage(),
