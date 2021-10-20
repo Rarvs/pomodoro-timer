@@ -12,11 +12,52 @@ class PomodoroListPage extends StatefulWidget {
 }
 
 class _PomodoroListPageState extends State<PomodoroListPage> {
-  late PomodoroList pomodoroList;
+  late PomodoroList myPomodoros;
 
   Pomodoro createPomodoro() {
     Pomodoro newPomodoro = Pomodoro();
     return newPomodoro;
+  }
+
+  Future<void> _removeDialog(int pomodoroIndex) async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              'Remove pomodoro?',
+              style: kAppBarText,
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text(
+                      'Would you like to remove ${myPomodoros.pomodoroList[pomodoroIndex].task}'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  'No',
+                  style: kAppText,
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              TextButton(
+                child: Text(
+                  'Yes',
+                  style: kAppText,
+                ),
+                onPressed: () {
+                  myPomodoros
+                      .removePomodoro(myPomodoros.pomodoroList[pomodoroIndex]);
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 
   late Pomodoro pomodoro;
@@ -27,9 +68,15 @@ class _PomodoroListPageState extends State<PomodoroListPage> {
     super.initState();
   }
 
+  Future<void> _rebuildOnReturn() async {
+    setState(() {
+      myPomodoros;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    pomodoroList = Provider.of<PomodoroList>(context);
+    myPomodoros = Provider.of<PomodoroList>(context);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -40,7 +87,7 @@ class _PomodoroListPageState extends State<PomodoroListPage> {
           backgroundColor: kAccentColor,
           onPressed: () {
             setState(() {
-              pomodoroList.addPomodoro(createPomodoro());
+              myPomodoros.addPomodoro(createPomodoro());
             });
             print('button pressed');
           }),
@@ -51,23 +98,30 @@ class _PomodoroListPageState extends State<PomodoroListPage> {
         ),
       ),
       body: ListView.builder(
-        itemCount: pomodoroList.pomodoroList.length,
+        itemCount: myPomodoros.pomodoroList.length,
         itemBuilder: (context, index) => InkWell(
+          onLongPress: () =>
+              myPomodoros.removePomodoro(myPomodoros.pomodoroList[index]),
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ListenableProvider(
-                create: (context) => pomodoroList.pomodoroList[index],
+                create: (context) => myPomodoros.pomodoroList[index],
                 child: PomodoroTimerPage(),
               ),
             ),
-          ),
+          ).then((value) => _rebuildOnReturn()),
           child: Consumer(
             builder: (BuildContext context, value, Widget? child) {
               return Card(
                 child: ListTile(
                   leading: Icon(Icons.timer),
-                  title: Text(pomodoroList.pomodoroList[index].task),
+                  trailing: InkWell(
+                    child: Icon(Icons.delete),
+                    onTap: () => _removeDialog(index),
+                    // pomodoroList.removePomodoro(pomodoroList.pomodoroList[index]),
+                  ),
+                  title: Text(myPomodoros.pomodoroList[index].task),
                 ),
               );
             },

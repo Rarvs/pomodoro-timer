@@ -8,4 +8,9 @@ class PomodoroList extends ChangeNotifier {
     pomodoroList.add(newPomodoro);
     notifyListeners();
   }
+
+  void removePomodoro(Pomodoro pomodoro) {
+    pomodoroList.remove(pomodoro);
+    notifyListeners();
+  }
 }

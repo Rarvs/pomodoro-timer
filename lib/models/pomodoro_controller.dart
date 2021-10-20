@@ -4,6 +4,7 @@ class PomodoroController {
   late Pomodoro pomodoro;
   late List<int> sections = [];
   late List<String> sectionsName = [];
+  late List<String> sectionsDescription = [];
 
   PomodoroController({required Pomodoro pomodoro}) {
     this.pomodoro = pomodoro;
@@ -13,14 +14,20 @@ class PomodoroController {
   void startSections() {
     sections.add(pomodoro.focusTime);
     sectionsName.add('Focus');
+    sectionsDescription
+        .add('Time to take a break and review your accomplishments!');
     for (int i = 1; i < pomodoro.sections; i++) {
       sections.add(pomodoro.shortBreakTime);
-      sectionsName.add('Take a short break');
+      sectionsName.add('Short break');
+      sectionsDescription.add('Time to focus again!');
       sections.add(pomodoro.focusTime);
       sectionsName.add('Focus');
+      sectionsDescription
+          .add('Time to take a break and review your accomplishments!');
     }
     sections.add(pomodoro.longBreakTime);
-    sectionsName.add('Take a long break');
+    sectionsName.add('Long break');
+    sectionsDescription.add('Congratulations! You finished your timer');
   }
 
   int getFirstPosition() {
