@@ -6,7 +6,7 @@ class NotificationHelper {
 
   initializeNotification() async {
     final AndroidInitializationSettings androidInitializationSettings =
-        AndroidInitializationSettings("appicon.png");
+        AndroidInitializationSettings("@mipmap/ic_launcher_foreground");
 
     final InitializationSettings initializationSettings =
         InitializationSettings(

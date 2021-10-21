@@ -97,16 +97,17 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
 
   void _showNotification() {
     notificationHelper.displayNotification(
-        title: '${pomodoroController.sectionsName} has ended',
-        body: '${pomodoroController.sectionsDescription}');
+        title: '${pomodoro.task}',
+        body: '${pomodoroController.sectionsName[section]} has ended\n'
+            '${pomodoroController.sectionsDescription[section]}');
     print(
         '${pomodoroController.sectionsName[section]} has ended \n ${pomodoroController.sectionsDescription[section]}');
   }
 
   void _sectionCompleted() {
-    _getNextSection();
     //TODO: Create a local notification with the task, section e duration of next section. Maybe add a motivational quote.
     _showNotification();
+    _getNextSection();
   }
 
   @override
@@ -202,7 +203,6 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
                   ),
                   backgroundColor: kAccentColor,
                   onPressed: () {
-                    _showNotification();
                     setState(() {
                       isRunning ? controller.pause() : controller.start();
                       isRunning = !isRunning;
