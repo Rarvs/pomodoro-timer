@@ -108,7 +108,16 @@ class PomodoroSettingItem extends StatelessWidget {
               onPressed: () => value < 100 ? onIncrease() : null,
             ),
           ],
-        )
+        ),
+        Slider(
+          value: value.toDouble(),
+          min: 1,
+          max: 100,
+          onChanged: (newValue) {
+            newValue < value ? onDecrease() : null;
+            newValue > value ? onIncrease() : null;
+          },
+        ),
       ],
     );
   }

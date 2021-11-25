@@ -56,7 +56,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
               child: Column(
                 children: [
                   Text(
-                      'If you decline, your settings changes will take effect after the current section finishes or if you manually restart the timer.'),
+                      'If you decline, your settings changes will take effect after the current section ends or if you manually restart the timer.'),
                 ],
               ),
             ),
