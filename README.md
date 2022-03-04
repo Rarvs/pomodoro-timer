@@ -4,9 +4,10 @@ This is a simple pomodoro timer app. Define timers to help you on your daily tas
 
 ## Status
 
-  80% complete
-  
+  70% complete
+ 
   - Implement Bloc
+  - Connect to Firebase
   - Publish in Play Store
 
 ## Technologies
