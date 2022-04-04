@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/models/pomodoro.dart';
 import 'package:pomodoro_timer/models/pomodoro_list.dart';
 import 'package:pomodoro_timer/util/constants.dart';
-import 'package:pomodoro_timer/views/pomodoro_timer_page.dart';
+import 'package:pomodoro_timer/views/pomodoro/pomodoro_timer_page.dart';
 import 'package:provider/provider.dart';
 
 class PomodoroListPage extends StatefulWidget {
@@ -77,7 +77,6 @@ class _PomodoroListPageState extends State<PomodoroListPage> {
   @override
   Widget build(BuildContext context) {
     myPomodoros = Provider.of<PomodoroList>(context);
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           child: Icon(
@@ -89,7 +88,6 @@ class _PomodoroListPageState extends State<PomodoroListPage> {
             setState(() {
               myPomodoros.addPomodoro(createPomodoro());
             });
-            print('button pressed');
           }),
       appBar: AppBar(
         title: Text(
@@ -99,34 +97,43 @@ class _PomodoroListPageState extends State<PomodoroListPage> {
       ),
       body: ListView.builder(
         itemCount: myPomodoros.pomodoroList.length,
-        itemBuilder: (context, index) => InkWell(
-          onLongPress: () =>
-              myPomodoros.removePomodoro(myPomodoros.pomodoroList[index]),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ListenableProvider(
-                create: (context) => myPomodoros.pomodoroList[index],
-                child: PomodoroTimerPage(),
-              ),
-            ),
-          ).then((value) => _rebuildOnReturn()),
-          child: Consumer(
-            builder: (BuildContext context, value, Widget? child) {
-              return Card(
-                child: ListTile(
-                  leading: Icon(Icons.timer),
-                  trailing: InkWell(
-                    child: Icon(Icons.delete),
-                    onTap: () => _removeDialog(index),
-                    // pomodoroList.removePomodoro(pomodoroList.pomodoroList[index]),
+        itemBuilder: (context, index) {
+          if (myPomodoros.pomodoroList.isEmpty) {
+            return Center(
+              child: Text(
+                  'No pomodoros found. Click the + button to create a new timer'),
+            );
+          } else {
+            return InkWell(
+              onLongPress: () =>
+                  myPomodoros.removePomodoro(myPomodoros.pomodoroList[index]),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ListenableProvider(
+                    create: (context) => myPomodoros.pomodoroList[index],
+                    child: PomodoroTimerPage(),
                   ),
-                  title: Text(myPomodoros.pomodoroList[index].task),
                 ),
-              );
-            },
-          ),
-        ),
+              ).then((value) => _rebuildOnReturn()),
+              child: Consumer(
+                builder: (BuildContext context, value, Widget? child) {
+                  return Card(
+                    child: ListTile(
+                      leading: Icon(Icons.timer),
+                      trailing: InkWell(
+                        child: Icon(Icons.delete),
+                        onTap: () => _removeDialog(index),
+                        // pomodoroList.removePomodoro(pomodoroList.pomodoroList[index]),
+                      ),
+                      title: Text(myPomodoros.pomodoroList[index].task),
+                    ),
+                  );
+                },
+              ),
+            );
+          }
+        },
       ),
     );
   }

@@ -1,6 +1,7 @@
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:pomodoro_timer/models/pomodoro.dart';
 
-class PomodoroController {
+class PomodoroController extends CountDownController {
   late Pomodoro pomodoro;
   late List<int> sections = [];
   late List<String> sectionsName = [];

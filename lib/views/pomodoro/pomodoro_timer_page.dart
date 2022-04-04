@@ -2,9 +2,9 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:pomodoro_timer/models/pomodoro.dart';
 import 'package:pomodoro_timer/models/pomodoro_controller.dart';
-import 'package:pomodoro_timer/services/notification_services.dart';
+import 'package:pomodoro_timer/services/notification/notification_services.dart';
 import 'package:pomodoro_timer/util/constants.dart';
-import 'package:pomodoro_timer/views/settings_page.dart';
+import 'package:pomodoro_timer/views/pomodoro/settings_page.dart';
 import 'package:provider/provider.dart';
 
 class PomodoroTimerPage extends StatefulWidget {
@@ -23,10 +23,9 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
     notificationHelper = NotificationHelper();
     notificationHelper.initializeNotification();
+    super.initState();
   }
 
   void _createController() {
