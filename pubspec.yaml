@@ -31,7 +31,13 @@ dependencies:
   circular_countdown_timer: ^0.2.0
   flutter_local_notifications: ^9.0.0
   android_alarm_manager_plus: ^2.0.2
-  provider: ^6.0.0
+  flutter_launcher_icons: ^0.9.2
+  equatable: ^2.0.3
+  firebase_core: ^1.14.1
+  firebase_auth: ^3.3.14
+  cloud_firestore: ^3.1.12
+  bloc: ^8.0.3
+  flutter_bloc: ^8.0.1
 
 dev_dependencies:
   flutter_test:
@@ -48,7 +54,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - images/
+    - assets/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
